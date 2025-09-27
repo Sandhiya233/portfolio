@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sandhiya Pachamuthu - Portfolio</title>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scroll-behavior: smooth;
+      background: #f5f7fa;
+      color: #222;
+    }
+
+    /* Fixed Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      background: #2e86de;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: 1.5px;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #ffd43b;
+    }
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #ffd43b;
+      border-radius: 2px;
+    }
+
+    /* Section styles */
+    .section {
+      min-height: 100vh;
+      padding: 120px 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      scroll-margin-top: 70px; /* to offset fixed header */
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Different background colors */
+    #home { background: #dff9fb; }
+    #about { background: #f0e5d8; color: #5d4037; font-family: 'Georgia', serif; }
+    #projects { background: #7ed6df; }
+    #skills { background: #22a6b3; color: white; }
+    #contact { background: #2c3e50; color: #ecf0f1; font-family: 'Courier New', Courier, monospace; }
+
+    /* Titles and paragraphs */
+    .section h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+    .section p {
+      font-size: 1.8rem;
+      max-width: 700px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    /* Projects container */
+    .projects-container {
+      display: flex;
+      gap: 30px;
+      max-width: 900px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    /* Project cards */
+    .project-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      padding: 25px 30px;
+      flex: 1 1 280px;
+      max-width: 280px;
+      color: #130f40;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      will-change: transform;
+      text-align: center;
+    }
+    .project-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .project-card h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+    .project-card p {
+      font-size: 1.3rem;
+      line-height: 1.4;
+    }
+    .project-card:hover {
+      transform: scale(1.05) translateY(-10px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+    }
+
+    /* Skills */
+    .skill {
+      margin: 25px 0;
+      max-width: 700px;
+    }
+    .skill-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .skill-bar {
+      background: #ccc;
+      border-radius: 30px;
+      overflow: hidden;
+      height: 30px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .skill-fill {
+      height: 30px;
+      background: #ffda79;
+      width: 0;
+      text-align: right;
+      padding-right: 20px;
+      line-height: 30px;
+      font-weight: 700;
+      color: #130f40;
+      border-radius: 30px 0 0 30px;
+      transition: width 2.5s ease;
+      box-shadow: 0 2px 6px rgba(255, 218, 121, 0.8);
+    }
+
+    /* Contact */
+    #contact a {
+      color: #f9ca24;
+      text-decoration: none;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    #contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 0 20px;
+        font-size: 20px;
+      }
+      nav a {
+        margin-left: 15px;
+        font-size: 16px;
+      }
+      .section {
+        padding: 100px 30px 50px;
+      }
+      .section h1 {
+        font-size: 3rem;
+      }
+      .section p, #contact a {
+        font-size: 1.4rem;
+      }
+      .skill-name {
+        font-size: 1.3rem;
+      }
+      .skill-bar {
+        height: 25px;
+      }
+      .skill-fill {
+        height: 25px;
+        line-height: 25px;
+        padding-right: 15px;
+      }
+      .projects-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .project-card {
+        max-width: 90%;
+      }
+    }
+
+    /* New styles for Home content */
+    .home-content {
+      display: flex;
+      align-items: center;
+      gap: 60px; /* increased gap */
+      flex-wrap: wrap;
+      max-width: 900px;
+    }
+
+    .home-content p {
+      flex: 1 1 400px;
+      font-size: 1.8rem;
+      margin: 0; /* remove default p margin */
+    }
+
+    .animated-image {
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(46, 134, 222, 0.4);
+      animation: floatAnimation 4s ease-in-out infinite;
+      width: 350px;
+      height: 350px;
+      object-fit: cover;
+    }
+
+    @keyframes floatAnimation {
+      0%, 100% {
+        transform: translateY(0);
+        filter: drop-shadow(0 8px 10px rgba(46, 134, 222, 0.4));
+      }
+      50% {
+        transform: translateY(-15px);
+        filter: drop-shadow(0 12px 15px rgba(46, 134, 222, 0.6));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .home-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px; /* smaller gap on mobile */
+      }
+      .animated-image {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+      }
+    }
+
+    /* ---- NEW Stylish About Section ---- */
+    .about-card {
+      background: #fffaf2;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      padding: 40px;
+      max-width: 800px;
+      margin-top: 30px;
+      line-height: 1.7;
+    }
+    .about-card p {
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      color: #4e342e;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>MY PORTFOLIO</div>
+  <nav>
+    <a href="#home" class="nav-link active">Home</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </nav>
+</header>
+
+<div id="home" class="section">
+  <h1>Welcome!</h1>
+  <div class="home-content">
+    <p>Hi, I'm <strong>Sandhiya Pachamuthu</strong>, a passionate Computer Science student and aspiring full-stack developer. I love crafting modern, user-friendly websites and learning new technologies every day.</p>
+    <img src="myimage.jpg" alt="myimage" class="animated-image" />
+  </div>
+</div>
+
+<div id="about" class="section">
+  <h1>About Me</h1>
+  <div class="about-card">
+    <p>I am currently pursuing my <strong>B.E. in Computer Science and Engineering</strong> at KNOWLEDGE INSTITUTE OF TECHNOLOGY, expected to graduate in 2027.</p>
+    <p>I completed my schooling at AGN Matric Higher Secondary School in 2022.</p>
+    <p>I am dedicated, hardworking, and passionate about technology, problem-solving, and innovation.</p>
+  </div>
+</div>
+
+<div id="projects" class="section">
+  <h1>Projects</h1>
+  <div class="projects-container">
+    <div class="project-card" tabindex="0">
+      <img src="portfolio-project.jpg" alt="Portfolio Website">
+      <h3>Portfolio Website</h3>
+      <p>Designed and developed a fully responsive, animated portfolio website to showcase my skills and projects using HTML, CSS, and JavaScript.</p>
+    </div>
+    <div class="project-card" tabindex="0">
+      <img src="todo-app.jpg" alt="To-Do List App">
+      <h3>To-Do List App</h3>
+      <p>Built a React-based to-do list application with CRUD functionality and persistent storage using localStorage.</p>
+    </div>
+    <div class="project-card" tabindex="0">
+      <img src="student-management.jpg" alt="Student Management System">
+      <h3>Student Management System</h3>
+      <p>Created a student management system using Java and MySQL to maintain student records and reports efficiently.</p>
+    </div>
+  </div>
+</div>
+
+<div id="skills" class="section">
+  <h1>Skills</h1>
+
+  <div class="skill">
+    <div class="skill-name">HTML & CSS</div>
+    <div class="skill-bar"><div class="skill-fill" data-percent="90%">90%</div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">JavaScript</div>
+    <div class="skill-bar"><div class="skill-fill" data-percent="80%">80%</div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">Java</div>
+    <div class="skill-bar"><div class="skill-fill" data-percent="75%">75%</div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">Problem Solving</div>
+    <div class="skill-bar"><div class="skill-fill" data-percent="85%">85%</div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name">Git & GitHub</div>
+    <div class="skill-bar"><div class="skill-fill" data-percent="65%">65%</div></div>
+  </div>
+</div>
+
+<div id="contact" class="section">
+  <h1>Contact</h1>
+  <p>Email: <a href="mailto:sandhiyap@gmail.com">sandhiyap@gmail.com</a></p>
+  <p>Phone: +91 98765 43210</p>
+  <p>LinkedIn: <a href="https://linkedin.com/in/sandhiyap" target="_blank" rel="noopener">linkedin.com/in/sandhiyap</a></p>
+</div>
+
+<script>
+  const skillFills = document.querySelectorAll('.skill-fill');
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav a.nav-link');
+
+  function isInViewport(el, offset = 100) {
+    const rect = el.getBoundingClientRect();
+    return rect.top + offset < window.innerHeight && rect.bottom > 0;
+  }
+
+  function animateOnScroll() {
+    skillFills.forEach(bar => {
+      if (isInViewport(bar.parentElement) && !bar.classList.contains('animated')) {
+        bar.style.width = bar.getAttribute('data-percent');
+        bar.classList.add('animated');
+      }
+    });
+
+    sections.forEach(section => {
+      if (isInViewport(section, 150)) {
+        section.classList.add('visible');
+      }
+    });
+
+    let scrollPos = window.scrollY || window.pageYOffset;
+    const offset = 80;
+    let currentSection = null;
+
+    sections.forEach(section => {
+      if (section.offsetTop - offset <= scrollPos &&
+          section.offsetTop + section.offsetHeight > scrollPos) {
+        currentSection = section;
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (currentSection && link.getAttribute('href').substring(1) === currentSection.id) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', animateOnScroll);
+  window.addEventListener('load', () => {
+    animateOnScroll();
+  });
+</script>
+
+</body>
+</html>
